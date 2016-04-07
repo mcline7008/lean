@@ -1,12 +1,12 @@
-{"Reading":{
+{
+  "reading_type": "GPS",
   "pod_id": "1",
   "mac_address": "fe:fe:fe:fe:fe",
   "ip_address": "192.168.1.9",
-  "time": "sdkfjdsjf",
+  "time": "2016-04-05 00:10:35",
   "temp": "98",
   "luminosity": "85",
   "acceleration": "1.2",
-  "latitude": "21.348274",
-  "longitude": "36.29389"
-}
+  "latitude": "29.3482745",
+  "longitude": "56.2938942"
 }

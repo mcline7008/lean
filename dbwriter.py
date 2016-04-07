@@ -37,7 +37,7 @@ def writeAcceleration():
 	global time
 	global acceleration
 
-	cur.execute("INSERT INTO acceleration(pod_id, time, acceleration) VALUES(%s, %s, %s)", (podID, time, acceleration))
+	cur.execute("INSERT INTO accelerometer(pod_id, time, acceleration) VALUES(%s, %s, %s)", (podID, time, acceleration))
 
 def addPod():
 	global cur
@@ -51,6 +51,7 @@ dataFile = open("test.json")
 data = json.load(dataFile)
 
 podID = data["pod_id"]
+readingType = data["reading_type"]
 mac = data["mac_address"]
 ip = data["ip_address"]
 time = data["time"]
@@ -63,3 +64,17 @@ longitude = data["longitude"]
 con = mdb.connect('localhost', 'leanuser', 'leanteam', 'leanSensors')
 cur = con.cursor()
 
+if readingType == "Pod Add":
+	addPod()
+elif readingType == "GPS":
+	writeGPS()
+elif readingType == "Temp":
+	writeTemp()
+elif readingType == "Luminosity":
+	writeLuminosity()
+elif readingType == "Acceleration":
+	writeAcceleration()
+
+con.commit()
+
+con.close()
