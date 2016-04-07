@@ -1,0 +1,12 @@
+{"Reading":{
+  "pod_id": "1",
+  "mac_address": "fe:fe:fe:fe:fe",
+  "ip_address": "192.168.1.9",
+  "time": "sdkfjdsjf",
+  "temp": "98",
+  "luminosity": "85",
+  "acceleration": "1.2",
+  "latitude": "21.348274",
+  "longitude": "36.29389"
+}
+}
