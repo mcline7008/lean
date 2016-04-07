@@ -6,6 +6,15 @@ import pprint from pprint
 import MySQLdb as mdb
 import sys
 
+def writeGPS():
+	global cur
+	global podID
+	global time
+	global latitude
+	global longitude
+
+	cur.execute("INSERT INTO gps(pod_id, time, latitude, longitude) VALUES(%s, %s, %s, %s)", (podID, time, latitude, longitude))
+
 dataFile = open("data.json")
 data = json.load(dataFile)
 
