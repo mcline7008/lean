@@ -70,7 +70,7 @@ while 1:
 	dataFile = connection.recv(BUFFER_SIZE)
 	if not data: break
 	data = json.load(dataFile)
-	print "received data: "
+	print "received data: ", data
 	
 	podID = data["pod_id"]
 	readingType = data["reading_type"]
