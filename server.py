@@ -2,7 +2,6 @@
 # coding: utf-8
 
 import socket
-import demjson
 import json
 import pprint 
 import MySQLdb as mdb
@@ -104,12 +103,4 @@ while 1:
 	
 	connection.send(data)
 connection.close()
-
-
-
-
-
-dataFile = open("test.json")
-data = json.load(dataFile)
-
 
