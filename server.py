@@ -6,6 +6,7 @@ import json
 import pprint 
 import MySQLdb as mdb
 import sys
+import demjson
 
 #########################################################
 #
@@ -68,8 +69,8 @@ connection, addr = s.accept()
 print 'Connection address: ' , addr
 while 1:
 	dataFile = connection.recv(BUFFER_SIZE)
-	if not data: break
-	data = json.load(dataFile)
+	if not dataFile: break
+	data = demjson.decode(dataFile)
 	print "received data: ", data
 	
 	podID = data["pod_id"]
@@ -101,6 +102,6 @@ while 1:
 
 	con.close()
 	
-	connection.send(data)
+	connection.send("Success!")
 connection.close()
 
