@@ -25,6 +25,8 @@ accYH_addr = 0x2b	#Register for upper Y byte
 accZL_addr = 0x2c	#Register for lower Z byte
 accZH_addr = 0x2d	#Register for upper Z byte
 
+gpsAddr = 0x20
+
 def GPIOInit():
 	GPIO.setwarnings(False)				#Disable warnings
 	GPIO.setmode(GPIO.BOARD)			#Set the pin mode to physical numbering
