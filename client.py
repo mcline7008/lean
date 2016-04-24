@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 import math
 #end imports for sensors
 
-TCP_IP = '10.1.71.92'
+TCP_IP = '10.1.2.0'
 TCP_PORT = 5005
 BUFFER_SIZE = 1024
 MESSAGE = {"reading_type": "GPS", "pod_id": "1", "mac_address": "fe:fe:fe:fe:fe", "ip_address": "192.168.1.9", "time": "", "temp": "0", "luminosity": "0", "acceleration": "0", "latitude": "0", "longitude": "0"}
@@ -139,9 +139,9 @@ while 1:
     tmpTime += 1
     accTime += 1
         
-        s.send(json)
-        data = s.recv(BUFFER_SIZE)
-        print "Send data: ", data
+    s.send(json)
+    data = s.recv(BUFFER_SIZE)
+    print "Send data: ", data
     
     time.sleep(1)
 #End while loop
