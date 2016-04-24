@@ -68,6 +68,13 @@ def tmpReading():
     
     return tmp
 
+def accInit():
+    bus.write_byte_data(accAddr, 0x1f, 0x80)		#enable adc
+    bus.write_byte_data(accAddr, 0x20, 0x17)		#set 1Hz refresh rate, enable x, y, z axis
+    bus.write_byte_data(accAddr, 0x21, 0x00)		#disable all ctrl reg 2 features
+    bus.write_byte_data(accAddr, 0x23, 0x30)		#enable full g range
+    bus.write_byte_data(accAddr, 0x21, 0x80)		#Enable filtered data selection
+
 def accReading():
     accXL = bus.read_byte_data(accAddr, accXL_addr)
     accXH = bus.read_byte_data(accAddr, accXH_addr)
@@ -92,6 +99,7 @@ s.connect((TCP_IP, TCP_PORT))
 
 GPIOInit()
 luxInit()
+accInit()
 
 luxTime = 0
 tmpTime = 0
@@ -102,7 +110,7 @@ time.sleep(.5)
 while 1:
     if luxTime == 15:
         lux = luxReading()
-        MESSAGE["reading_type"] = "luminosity"
+        MESSAGE["reading_type"] = "Luminosity"
         MESSAGE["luminosity"] = lux;
         MESSAGE["time"] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         json = demjson.encode(MESSAGE)
@@ -111,7 +119,7 @@ while 1:
     
     if tmpTime == 15:
         tmp = tmpReading()
-        MESSAGE["reading_type"] = "temp"
+        MESSAGE["reading_type"] = "Temp"
         MESSAGE["temp"] = tmp;
         MESSAGE["time"] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         json = demjson.encode(MESSAGE)
@@ -120,7 +128,7 @@ while 1:
     
     if accTime == 10:
         acc = accReading()
-        MESSAGE["reading_type"] = "accelaration"
+        MESSAGE["reading_type"] = "Accelaration"
         MESSAGE["accelaration"] = acc;
         MESSAGE["time"] = strftime("%Y-%m-%d %H:%M:%S", gmtime())
         json = demjson.encode(MESSAGE)
