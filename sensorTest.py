@@ -60,6 +60,13 @@ def tmpReading():
 
 	return tmp
 
+def accInit():
+    bus.write_byte_data(accAddr, 0x1f, 0x80)		#enable adc
+    bus.write_byte_data(accAddr, 0x20, 0x17)		#set 1Hz refresh rate, enable x, y, z axis
+    bus.write_byte_data(accAddr, 0x21, 0x00)		#disable all ctrl reg 2 features
+    bus.write_byte_data(accAddr, 0x23, 0x30)		#enable full g range
+    bus.write_byte_data(accAddr, 0x21, 0x80)		#Enable filtered data selection
+
 def accReading():
 	accXL = bus.read_byte_data(accAddr, accXL_addr)
 	accXH = bus.read_byte_data(accAddr, accXH_addr)
