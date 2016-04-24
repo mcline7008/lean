@@ -42,7 +42,7 @@ def GPIOInit():
     GPIO.output(8, GPIO.LOW)			#Remove power from sensors the 3.3v output
     time.sleep(.005)
     GPIO.output(8, GPIO.HIGH)			#Drive the 3.3V output
-    time.sleep(.005)
+    time.sleep(3)
 
 def luxInit():
     bus.write_byte_data(luxAddr, 0x80, 0x03)		#Power up sensor
