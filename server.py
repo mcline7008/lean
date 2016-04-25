@@ -42,9 +42,11 @@ def writeAcceleration():
 	global cur 
 	global podID
 	global time
-	global acceleration
+	global accX
+	global accY
+	global accZ
 
-	cur.execute("INSERT INTO accelerometer(pod_id, time, acceleration) VALUES(%s, %s, %s)", (podID, time, acceleration))
+	cur.execute("INSERT INTO acceleration(pod_id, time, acc_x, acc_y, acc_z) VALUES(%s, %s, %s, %s, %s)", (podID, time, accX, accY, accZ))
 
 def addPod():
 	global cur
@@ -70,7 +72,9 @@ print 'Connection address: ' , addr
 while 1:
 	dataFile = connection.recv(BUFFER_SIZE)
 	if not dataFile: break
-	data = demjson.decode(dataFile)
+	try:
+		data = demjson.decode(dataFile)
+	except: print("failed decode")
 	print "received data: ", data
 	
 	podID = data["pod_id"]
@@ -80,7 +84,9 @@ while 1:
 	time = data["time"]
 	temp = data["temp"]
 	luminosity = data["luminosity"]
-	acceleration = data["acceleration"]
+	accX = data["acc_x"]
+	accY = data["acc_y"]
+	accZ = data["acc_z"]
 	latitude = data["latitude"]
 	longitude = data["longitude"]
 
