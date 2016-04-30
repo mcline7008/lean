@@ -25,8 +25,6 @@ accYH_addr = 0x2b	#Register for upper Y byte
 accZL_addr = 0x2c	#Register for lower Z byte
 accZH_addr = 0x2d	#Register for upper Z byte
 
-gpsAddr = 0x20
-
 def GPIOInit():
 	GPIO.setwarnings(False)				#Disable warnings
 	GPIO.setmode(GPIO.BOARD)			#Set the pin mode to physical numbering
@@ -79,7 +77,20 @@ def accReading():
 	accY = (accYH << 8) + (accYL & 0xff)
 	accZ = (accZH << 8) + (accZL & 0xff)
 
-	acc = [accX, accY, accZ]
+	if (0x8000 & accX):
+		accX = - (0x10000 - accX)
+	
+	if (0x8000 & accY):
+		accY = - (0x1000 - accY)
+
+	if (0x8000 & accZ):
+		accZ = - (0x1000 - accZ)
+
+	x_g = accX / 1365.33 					#calculate gs
+	y_g = accY / 1365.33
+	z_g = accZ / 1365.33
+
+	acc = [x_g, y_g, z_g]
 
 	return acc
 
@@ -88,19 +99,20 @@ def updateScreen(lux, tmp, acc, luxT, tmpT, accT):
 	tmpT_remaining = 15 - tmpT
 	accT_remaining = 10 - accT
 
-	return "Lux Magnitude: {0:d}, updating in {5:d} \nTemperature: {1:.4f} degreeC, updating in {6:d} \nX : {2:d}\tY : {3:d}\tZ : {4:d}, updating in {7:d}".format(lux, tmp, acc[0], acc[1], acc[2], luxT_remaining, tmpT_remaining, accT_remaining)
-	
+	return "Lux Magnitude: {0:d}, updating in {5:d} \nTemperature: {1:.4f} degreeC, updating in {6:d} \nX : {2:f} m/s^2\tY : {3:f} m/s^2\tZ : {4:f}m/s^2, updating in {7:d}".format(lux, tmp, acc[0], acc[1], acc[2], luxT_remaining, tmpT_remaining, accT_remaining)
+
 stdscr = curses.initscr()
 curses.noecho()
 curses.curs_set(0)
 curses.halfdelay(1)
 stdscr.keypad(1)
-curses.resizeterm(12, 50)
+curses.resizeterm(12, 80)
 stdscr.clear()
 stdscr.addstr(0,0, "Initializing Program")
 
 GPIOInit()
 luxInit()
+accInit()
 
 luxTime = 0
 tmpTime = 0
@@ -129,7 +141,7 @@ while True:
 	if accTime == 10:
 		acc = accReading()
 		accTime = 0
-
+	
 	luxTime += 1
 	tmpTime += 1
 	accTime += 1
